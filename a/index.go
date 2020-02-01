@@ -8,11 +8,13 @@ func test(x float32, y string) (float32, string) {
 }
 
 func main() {
+	fmt.Println("123".(type))
 	var a [10]int
 	for index := 0; index < 5; index++ {
 		a[index] = index
 	}
 	fmt.Println(a[1:3])
+	fmt.Println(string([]byte("夏天")))
 	// a, b := test(6.5, "Runoob")
 	// fmt.Println(fmt.Sprint(a), b, strconv.FormatFloat(123456789.123456789, 'f', -1, 64))
 

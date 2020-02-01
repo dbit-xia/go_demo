@@ -11,4 +11,31 @@ enqueue,文件数=585,dequeue,文件数=345,内存=50M
 enqueue,文件数=672,内存50M,dequeue,文件数=441,内存=51.3M
 enqueue,文件数=753,内存50.3M,dequeue,文件数=532,内存=45.3M
 ```
-* nsq 支持批量发送 每次1k*5000,每秒批量发送7次,批量大小限制5M
+* nsq 
+  * 支持批量发送 每次1k*5000,每秒批量发送7次,批量大小限制5M,接收消息1W/s
+  * 接收后数据文件自动缩小,
+  * 内存中保留1W条消息
+  * 每个channel(队列)各保存一份数据
+  * 自带集群方案
+  ```
+  #!/bin/bash
+  #集群服务
+  tmux new -AdDEP -s nsqlookupd01 ./nsqlookupd
+  tmux new -AdDEP -s nsqlookupd02 ./nsqlookupd -tcp-address 0.0.0.0:4162 -http-address 0.0.0.0:4163
+  #队列服务
+  tmux new -AdDEP -s nsqd01 ./nsqd --lookupd-tcp-address=127.0.0.1:4160 --lookupd-tcp-address=127.0.0.1:4162
+  tmux new -AdDEP -s nsqd02 ./nsqd --lookupd-tcp-address=127.0.0.1:4160 -tcp-address=0.0.0.0:4152 -http-address=0.0.0.0:4153 -data-path=/tmp --lookupd-tcp-address=127.0.0.1:4162
+  #web控制台
+  tmux new -AdDEP -s nsqadmin01 ./nsqadmin --lookupd-http-address=127.0.0.1:4161 --lookupd-http-address=127.0.0.1:4163
+  ```
+  ```
+  #!/bin/bash
+  #集群服务
+  tmux kill-session -t nsqlookupd01
+  tmux kill-session -t nsqlookupd02
+  #队列服务
+  tmux kill-session -t nsqd01
+  tmux kill-session -t nsqd02
+  #web控制台
+  tmux kill-session -t nsqadmin01
+  ```
