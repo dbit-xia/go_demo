@@ -1,0 +1,8 @@
+.idea
+.vscode
+*.zip
+*.tar
+*.rar
+*.7z
+*.gz
+*.db
