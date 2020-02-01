@@ -11,7 +11,7 @@ enqueue,文件数=585,dequeue,文件数=345,内存=50M
 enqueue,文件数=672,内存50M,dequeue,文件数=441,内存=51.3M
 enqueue,文件数=753,内存50.3M,dequeue,文件数=532,内存=45.3M
 ```
-* nsq 
+* nsq (go-nsq)
   * 支持批量发送 每次1k*5000,每秒批量发送7次,批量大小限制5M,接收消息1W/s
   * 接收后数据文件自动缩小,
   * 内存中保留1W条消息
@@ -39,3 +39,13 @@ enqueue,文件数=753,内存50.3M,dequeue,文件数=532,内存=45.3M
   #web控制台
   tmux kill-session -t nsqadmin01
   ```
+* nats-streaming (默认--store MEMORY) 
+  * 支持持久订阅
+  `./nats-streaming-server` 内存模式
+  * 同步发布消息(Hello World)较慢<1W/s,异步发送较快~18W/s, 异步发送1K数据~12W/s
+  * 客户端内存稳定很小~10M,接收很快~34W/s
+  * 服务端内存较高>300M~2.4G 
+  `./nats-streaming-server --store FILE --dir /tmp/nats` 文件模式
+  * 客户端:异步写入1K数据~2.6W/s,读取~9W/s,内存~20M
+  * 服务端:写入时内存稳定~246M,150W数据文件大小1.1G,读取时达到566M(一直未降,--file_buffer_size=10000000不受影响)
+  * 消息超出指定个数时,自动覆盖老数据
