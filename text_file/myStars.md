@@ -1,8 +1,8 @@
 SQL解析 |nquery,flora-sql-parser,JSqlParser,sqlfrog
 NodeORM|knex,bookshelf,sequelize,node-sql,waterline
 sql审核|Yearning,inception,arkcontrol
-日志解析 |telegraf,fluent-bit,promtail,Logstash
-日志存储|Loki,
+日志解析 |telegraf,fluent-bit,promtail,Logstash,cadvisor
+日志存储|Loki,Pandora(qiniu云)
 图形化|grafana,kibana
 图数据库|dgraph
 对象存储|minio
