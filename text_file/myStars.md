@@ -1,3 +1,5 @@
+分类|清单|
+-|-|
 SQL解析 |nquery,flora-sql-parser,JSqlParser,sqlfrog
 NodeORM|knex,bookshelf,sequelize,node-sql,waterline
 sql审核|Yearning,inception,arkcontrol
@@ -6,18 +8,21 @@ sql审核|Yearning,inception,arkcontrol
 图形化|grafana,kibana
 图数据库|dgraph
 对象存储|minio
-数据库|TDengine(单机版开源),clickhouse,influxdb,
+数据库|TDengine(单机版开源)
+分析数据库|clickhouse
+时序数据|influxdb
+keyValueDB|badger(go),redis,leveldb,rocksdb,ssdb,ardb,etcd,consul,tikv,codis,zookeeper
+文档数据库|mongodb,cassda,elasticseach
+云原生数据库|yugabytedb,cockroach
+Nosql工具|fastonosql
+数据库迁移工具|db-migrate(pg,mysql,sqlite,mongo,cockroach)
 报表工具|jasperreports,iReport
 BI工具|redash,superset,metabase
 数据库应用|kexi,access
 无Broke消息队列|zeromq,nats,nanomsg
 有Broke消息列队|nsq,artemis,nats-streaming,pulsar,RabbitMQ,qmq(java)
-GO队列|goque(基于leveldb,有文件不释放的bug),bigqueue,
+GO队列|goque(基于leveldb,有文件不释放的bug),bigqueue,pogreb
 Node队列|fastmq
-keyValueDB|badger(go),redis,leveldb,rocksdb,ssdb,ardb,etcd,consul,tikv,codis,zookeeper
-文档数据库|mongodb,cassda,elasticseach
-云原生数据库|yubytedb
-Nosql工具|fastonosql
 Nats|resgate(不限语言WebSocket框架),natsboard(已停更),nats-rest-config-proxy
 rpc|grpc(protobuf),nrpc(go,nats),bloomrpc(grpc-ui),thrift,netty,zyre
 GO|go-spring-doc,pmgo
@@ -34,7 +39,7 @@ OCR|tesseract.js
 序列化|protobuf,flatbuffers
 安全|node-vault
 测试|autocannon,loadtest
-git|gitea,gitlab
+git|gitea,gitlab,gogs
 openfaas,fn,openwhisk,vagrant
 工作队列|Fireworq(mysql),bull(redis),agenda(mongo),Beanstalk(c),Celery,resque
 nodeGUI|yue,yode,qode,react-nodegui,nodegui
@@ -50,7 +55,7 @@ node框架|Prisma(数据库框架),HEMERA(微服务),PWABuilder
 权限|casbin
 Java|HikariCP
 python|pandas,modin
-Socket|pushpin,socket.io,
+Socket|pushpin(socket代理),socket.io,resgate(nats)
 Nodejs|sql.js,pino(日志收集)
 缓存|node-cache-manager(node)
 

@@ -3,6 +3,9 @@
 * dque issue和更新太少,性能太低
 * badger #下载模块需要VPN,可以按前缀删除数据,然后数据文件会变少,内存会慢慢降低,支持纯内存模式,支持disk+cache模式
 * goque 基于leveldb,issue和更新太少,性能可以,内存稳定占用少50M,队列出列后文件数持续增多,除非使用Drop删除队列所有文件,不能设置db文件大小
+* pogreb issue和更新太少,性能可以,内存太高,数据文件不支持删除
+* goleveldb 性能高,低内存,数据压缩率高,支持按key范围来释放数据文件
+
 ```
 enqueue,dequeue,35,
 enqueue,397,dequeue,134,
