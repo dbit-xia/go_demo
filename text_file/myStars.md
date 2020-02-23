@@ -50,6 +50,7 @@ node打包|yackage,redux,single-spa,lock.js,node-packer
 node框架|Prisma(数据库框架),HEMERA(微服务),PWABuilder
 前端日志收集|lajax,eruda
 前端UI|PivotalUI,AntDesign,
+前端MsgBox|sweetalert2
 自动化|robotjs
 配置|node-convict,aliacm,nacos,confd
 权限|casbin
@@ -58,5 +59,5 @@ python|pandas,modin
 Socket|pushpin(socket代理),socket.io,resgate(nats)
 Nodejs|sql.js,pino(日志收集)
 缓存|node-cache-manager(node)
-
+网关|nginx,kong,kongA,kong-admin-ui,
 

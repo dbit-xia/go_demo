@@ -7,3 +7,13 @@
 *.gz
 *.db
 temp
+
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.go
+!*.md
+
+# Unignore all dirs
+!*/
