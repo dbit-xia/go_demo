@@ -1,6 +1,7 @@
 *
 !*.go
 !*.md
+!*/
 .idea
 .vscode
 *.zip
@@ -10,4 +11,4 @@
 *.gz
 *.db
 temp
-!*/
+temp2
