@@ -2,8 +2,7 @@
 !*.go
 !*.md
 !*/
-.idea
-.vscode
+.*
 *.zip
 *.tar
 *.rar
