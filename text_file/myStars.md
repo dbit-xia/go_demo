@@ -4,7 +4,7 @@ SQL解析 |nquery,flora-sql-parser,JSqlParser,sqlfrog
 NodeORM|knex,bookshelf,sequelize,node-sql,waterline
 sql审核|Yearning,inception,arkcontrol
 日志解析 |telegraf,fluent-bit,promtail,Logstash,cadvisor
-日志存储|Loki,Pandora(qiniu云)
+日志存储|Loki,Pandora(qiniu云),LogDevice
 图形化|grafana,kibana
 图数据库|dgraph
 对象存储|minio
@@ -12,8 +12,9 @@ sql审核|Yearning,inception,arkcontrol
 分析数据库|clickhouse
 时序数据|influxdb
 keyValueDB|badger(go),redis,leveldb,rocksdb,ssdb,ardb,etcd,consul,tikv,codis,zookeeper
-文档数据库|mongodb,cassda,elasticseach
+文档数据库|mongodb,cassda,elasticseach,tiedot
 云原生数据库|yugabytedb,cockroach
+轻量关系数据库|rqlite
 Nosql工具|fastonosql
 数据库迁移工具|db-migrate(pg,mysql,sqlite,mongo,cockroach)
 报表工具|jasperreports,iReport
@@ -29,13 +30,14 @@ GO|go-spring-doc,pmgo
 GO-HTTP服务|iris,caddy,goflyway,
 GO框架|gf,
 文件同步|syncthing
-工作流平台|flogo(不能在线运行?),node-red
+工作流平台|flogo(不能在线运行?),node-red,wfd
 OCR|tesseract.js
 工具|WebSSH,FRP,tmux,http-server,ngrok,lanproxy,webterminal
 网关|apisix(插件少),Kong,nginx,
 网络|coredns(自建DNS服务器),netdata
+网络转发工具|frp,rtty,ngrok,
 容器化|k3s,k8s,compose,portainer,unit,envoy,istio,kuma(Envoy),ambassador
-监控|prometheus,alertmanage,Nagios,hystrix,pandora(nodejs),alinode(nodejs)
+监控|prometheus/thanos,alertmanage,Nagios,hystrix,pandora(nodejs),alinode(nodejs)
 序列化|protobuf,flatbuffers
 安全|node-vault
 测试|autocannon,loadtest
@@ -49,8 +51,9 @@ node打包|yackage,redux,single-spa,lock.js,node-packer
 游戏框架|skynet,pomelo
 node框架|Prisma(数据库框架),HEMERA(微服务),PWABuilder
 前端日志收集|lajax,eruda
-前端UI|PivotalUI,AntDesign,
+前端UI|PivotalUI,AntDesign,Bootstrap
 前端MsgBox|sweetalert2
+前端文件上传|uppy,tus
 自动化|robotjs
 配置|node-convict,aliacm,nacos,confd
 权限|casbin
@@ -58,6 +61,10 @@ Java|HikariCP
 python|pandas,modin
 Socket|pushpin(socket代理),socket.io,resgate(nats)
 Nodejs|sql.js,pino(日志收集)
-缓存|node-cache-manager(node)
+缓存|node-cache-manager(node),Pika,redis
 网关|nginx,kong,kongA,kong-admin-ui,
+轻量语言|v,
+本地HTTP服务|gohttpserver,http-server,
+线程池|workerpool,node-pool
+
 
