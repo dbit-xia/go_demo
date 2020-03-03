@@ -11,7 +11,7 @@ sql审核|Yearning,inception,arkcontrol
 数据库|TDengine(单机版开源)
 分析数据库|clickhouse
 时序数据|influxdb
-keyValueDB|badger(go),redis,leveldb,rocksdb,ssdb,ardb,etcd,consul,tikv,codis,zookeeper
+keyValueDB|badger(go),redis,leveldb,rocksdb,ssdb,ardb,etcd,consul,tikv,codis,zookeeper,nutsdb(待测试性能)
 文档数据库|mongodb,cassda,elasticseach,tiedot
 云原生数据库|yugabytedb,cockroach
 轻量关系数据库|rqlite
