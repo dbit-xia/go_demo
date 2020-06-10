@@ -9,5 +9,7 @@ func main() {
     c.Send("Hello, World!")
   })
 
-  app.Listen(3000)
+  port :=3000;
+  app.Listen(port)
+  //fmt.Println(port)
 }
