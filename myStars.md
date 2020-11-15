@@ -7,8 +7,8 @@ sql审核|Yearning,inception,arkcontrol
 日志存储|Loki,Pandora(qiniu云),LogDevice
 图形化|grafana,kibana
 图数据库|dgraph
-对象存储|minio
-数据库|TDengine(单机版开源)
+对象存储/文件系统|minio,go-fastdfs,seaweedfs,ChubaoFS,ceph
+数据库|TDengine(单机版开源,同一ms不允许数据重复insert,不支持delete)
 分析数据库|clickhouse
 时序数据|influxdb
 keyValueDB|badger(go),redis,leveldb,rocksdb(一写多读),ssdb,ledisdb,ardb(停更?),etcd,consul,tikv,codis,zookeeper,nutsdb(待测试性能)
