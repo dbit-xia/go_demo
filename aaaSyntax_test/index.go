@@ -1,14 +1,17 @@
 package main
 
-import "fmt"
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 func test(x float32, y string) (float32, string) {
 	return x, y
 }
 
 func main() {
-	fmt.Println("123".(type))
+	// var bbb string = "123"
+	// fmt.Println(bbb.type)
 	var a [10]int
 	for index := 0; index < 5; index++ {
 		a[index] = index
@@ -17,7 +20,6 @@ func main() {
 	fmt.Println(string([]byte("夏天")))
 	// a, b := test(6.5, "Runoob")
 	// fmt.Println(fmt.Sprint(a), b, strconv.FormatFloat(123456789.123456789, 'f', -1, 64))
-
 
 	// testToString()
 	// testPointer()
