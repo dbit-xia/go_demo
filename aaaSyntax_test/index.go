@@ -22,7 +22,7 @@ func main() {
 	// fmt.Println(fmt.Sprint(a), b, strconv.FormatFloat(123456789.123456789, 'f', -1, 64))
 
 	// testToString()
-	// testPointer()
+	testPointer()
 	// testStruct()
 	testInterface()
 }
@@ -40,6 +40,7 @@ func testPointer() {
 	var p *int
 	var p2 *int
 	var I int
+	I = 1
 	p = &I //取I的地址
 	p2 = p
 	*p = 8
@@ -52,6 +53,10 @@ func testPointer() {
 	fmt.Println("*p2 =", *p2)
 	fmt.Println("&p =", &p)
 	fmt.Println("&p2 =", &p2)
+
+	I = 2
+	fmt.Println("*p", *p)
+
 }
 
 type person struct {
