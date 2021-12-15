@@ -2,38 +2,60 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
-func sum(s []int, c chan int) {
+func sum(no int, s []int) interface{} {
+	//fmt.Println(no)
 	sum := 0
 	for _, v := range s {
 		sum += v
 	}
-	c <- sum // 把 sum 发送到通道 c
-
+	time.Sleep(time.Second)
+	return no
 }
 
-func sum2(s []int, c *int) {
-	sum := 0
-	for _, v := range s {
-		sum += v
+func parallelLimit(fns *[]func() interface{}, limit int) *[]interface{} {
+	c := make(chan int)
+	var runningCount = 0
+	var total = len(*fns)
+	var results = make([]interface{}, len(*fns))
+	for i := 0; i < total; i++ {
+		//fmt.Println("i", i)
+		if runningCount < limit {
+			runningCount++
+		} else {
+			var value = <-c
+			fmt.Println(time.Now(), value)
+		}
+
+		i := i
+		go func(c chan int) {
+			results[i] = (*fns)[i]()
+			c <- i
+		}(c)
 	}
-	*c = sum // 把 sum 发送到通道 c
+
+	for i := 0; i < limit; i++ {
+		var value = <-c
+		fmt.Println(time.Now(), value)
+	}
+	close(c)
+
+	return &results
 }
 
 func main() {
-	//c := make(chan int)
-	//go sum([]int{1, 2, 3}, c)
-	//go sum([]int{2, 3}, c)
-	//
-	//x, y := <-c, <-c //接收最后两次
-	//fmt.Println(x, y)
 
-	var n int
-	go sum2([]int{1, 2, 3}, &n)
+	var fns = make([]func() interface{}, 20)
+	for i := 0; i < 20; i++ {
+		i := i
+		fns[i] = func() interface{} {
+			return sum(i, []int{2, 3, 4})
+		}
+	}
 
-	c := make(chan int)
-	go sum([]int{1, 2, 3}, c)
+	var results = parallelLimit(&fns, 10)
 
-	fmt.Println(n, <-c)
+	fmt.Println("OK", *results)
 }
