@@ -5,7 +5,9 @@ import (
 	"time"
 )
 
-func sum(no int, s []int) interface{} {
+type any interface{}
+
+func sum(no int, s []int) int {
 	//fmt.Println(no)
 	sum := 0
 	for _, v := range s {
@@ -15,11 +17,11 @@ func sum(no int, s []int) interface{} {
 	return no
 }
 
-func parallelLimit(fns *[]func() interface{}, limit int) *[]interface{} {
+func parallelLimit(fns *[]func() any, limit int) *[]any {
 	c := make(chan int)
 	var runningCount = 0
 	var total = len(*fns)
-	var results = make([]interface{}, len(*fns))
+	var results = make([]any, len(*fns))
 	for i := 0; i < total; i++ {
 		//fmt.Println("i", i)
 		if runningCount < limit {
@@ -47,10 +49,10 @@ func parallelLimit(fns *[]func() interface{}, limit int) *[]interface{} {
 
 func main() {
 
-	var fns = make([]func() interface{}, 20)
+	var fns = make([]func() any, 20)
 	for i := 0; i < 20; i++ {
 		i := i
-		fns[i] = func() interface{} {
+		fns[i] = func() any {
 			return sum(i, []int{2, 3, 4})
 		}
 	}
