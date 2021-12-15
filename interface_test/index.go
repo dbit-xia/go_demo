@@ -1,45 +1,34 @@
 package main
 
-import "log"
+import (
+	"fmt"
+)
 
-type person struct {
-	name string
-	sex  string
-	age  int
+type Phone interface {
+	call()
 }
 
-func (p *person) getName() string {
-	return p.name
+type NokiaPhone struct {
 }
-func (p *person) setName(name string) {
-	p.name = name
-	return
+
+func (nokiaPhone NokiaPhone) call() {
+	fmt.Println("I am Nokia, I can call you!")
+}
+
+type IPhone struct {
+}
+
+func (iPhone IPhone) call() {
+	fmt.Println("I am iPhone, I can call you!")
 }
 
 func main() {
-	// type Person struct {
-	// 	name string
-	// 	age  int
-	// }
+	var phone Phone
 
-	// func (p *Person) setName(name string) {
-	// 	p.name = name
-	// 	return
-	// }
-	// func (p *Person) getName() string {
-	// 	return p.name
-	// }
+	phone = new(NokiaPhone)
+	phone.call()
 
-	type inface interface {
-		setName(name string)
-		getName() string
-	}
-	var p person
-	p = person{name: "张三", age: 18}
-	var i inface
-	i = &p
-	log.Println(p)
-	log.Println(&p)
-	log.Println(i == &p)
+	phone = new(IPhone)
+	phone.call()
 
 }
