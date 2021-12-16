@@ -20,7 +20,7 @@ func (p *ParallelError) Error() string {
 	return msg
 }
 
-func ParallelLimit(fns *[]func() interface{}, limit int) (*[]interface{}, error) {
+func ParallelLimit(fns *[]func() (interface{}, error), limit int) (*[]interface{}, error) {
 	c := make(chan int)
 	var runningCount = 0
 	var total = len(*fns)
@@ -48,22 +48,27 @@ func ParallelLimit(fns *[]func() interface{}, limit int) (*[]interface{}, error)
 
 		currentIndex := index
 		go func(c chan int) {
+			var err interface{}
 			defer func() {
 				// 发生宕机时，获取panic传递的上下文并打印
-				err := recover()
-				switch err.(type) {
-				case runtime.Error: // 运行时错误
-					//fmt.Println("runtime error:", err, currentIndex)
-					//atomic.AddUint32(&lastErrorIndex, 1)
-					errors.errorMap[currentIndex] = err.(runtime.Error)
-					hasError = true
-				default: // 非运行时错误
-					//fmt.Println("error:", err)
+				if err == nil {
+					err = recover()
 				}
+				if err != nil {
+					hasError = true
+
+					switch err.(type) {
+					case runtime.Error: // 运行时错误
+						errors.errorMap[currentIndex] = err.(runtime.Error)
+					default: // 非运行时错误
+						errors.errorMap[currentIndex] = err.(error)
+					}
+				}
+
 				c <- currentIndex
 			}()
 
-			resolves[currentIndex] = (*fns)[currentIndex]()
+			resolves[currentIndex], err = (*fns)[currentIndex]()
 
 		}(c)
 	}

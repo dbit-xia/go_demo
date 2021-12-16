@@ -7,7 +7,7 @@ import (
 
 //var shareNum uint32 = 0
 
-func sum(no int, s []int) int {
+func sum(no int, s []int) (int, error) {
 	//fmt.Println(no)
 	sum := 0
 	for _, v := range s {
@@ -21,15 +21,15 @@ func sum(no int, s []int) int {
 	//fmt.Println(newNum)
 	//time.Sleep(time.Second)
 
-	return no
+	return no, nil
 }
 
 func main() {
 
-	var fns = make([]func() interface{}, 20)
+	var fns = make([]func() (interface{}, error), 20)
 	for i := 0; i < 20; i++ {
 		i := i
-		fns[i] = func() interface{} {
+		fns[i] = func() (interface{}, error) {
 			return sum(i, []int{2, 3, 4})
 		}
 	}
