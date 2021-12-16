@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
+	"runtime"
+	"sync/atomic"
 	"time"
 )
 
 type any interface{}
+
+//var shareNum uint32 = 0
 
 func sum(no int, s []int) int {
 	//fmt.Println(no)
@@ -13,38 +17,78 @@ func sum(no int, s []int) int {
 	for _, v := range s {
 		sum += v
 	}
-	time.Sleep(time.Second)
+	//if no >= 3 {
+	//	var a = 0;
+	//	fmt.Println(1 / a)
+	//}
+	//var newNum = atomic.AddUint32(&shareNum, 1)
+	//fmt.Println(newNum)
+	//time.Sleep(time.Second)
+
 	return no
 }
 
-func parallelLimit(fns *[]func() any, limit int) *[]any {
+func parallelLimit(fns *[]func() any, limit int) (*[]any, *[]any) {
 	c := make(chan int)
 	var runningCount = 0
 	var total = len(*fns)
-	var results = make([]any, len(*fns))
-	for i := 0; i < total; i++ {
-		//fmt.Println("i", i)
+	var resolves = make([]any, total)
+
+	var errorMap = make(map[int]any, total)
+	var lastErrorIndex uint32 = 0
+	var hasError = false
+	for index := 0; index < total; index++ {
+
 		if runningCount < limit {
 			runningCount++
 		} else {
 			var value = <-c
-			fmt.Println(time.Now(), value)
+			err, _ := errorMap[value]
+			fmt.Println(time.Now(), value, err)
+			if hasError == true {
+				runningCount-- //正在执行减1
+				break
+			}
 		}
 
-		i := i
+		index2 := index
 		go func(c chan int) {
-			results[i] = (*fns)[i]()
-			c <- i
+			defer func() {
+				// 发生宕机时，获取panic传递的上下文并打印
+				err := recover()
+				switch err.(type) {
+				case runtime.Error: // 运行时错误
+					fmt.Println("runtime error:", err, index2)
+					atomic.AddUint32(&lastErrorIndex, 1)
+					errorMap[index2] = err
+					hasError = true
+				default: // 非运行时错误
+					//fmt.Println("error:", err)
+				}
+				c <- index2
+			}()
+
+			resolves[index2] = (*fns)[index2]()
+
 		}(c)
 	}
 
-	for i := 0; i < limit; i++ {
+	for i := 0; i < runningCount; i++ {
 		var value = <-c
-		fmt.Println(time.Now(), value)
+		fmt.Println(time.Now(), value, errorMap[value])
 	}
 	close(c)
 
-	return &results
+	var errorArray []any
+	if hasError {
+		errorArray = make([]any, 0)
+
+		for _, value := range errorMap {
+			errorArray = append(errorArray, value)
+		}
+	}
+
+	return &resolves, &errorArray
 }
 
 func main() {
@@ -57,7 +101,7 @@ func main() {
 		}
 	}
 
-	var results = parallelLimit(&fns, 10)
-
-	fmt.Println("OK", *results)
+	var results, errors = parallelLimit(&fns, 3)
+	//time.Sleep(10 * time.Second)
+	fmt.Println("OK", *results, *errors)
 }
