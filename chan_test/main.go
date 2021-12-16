@@ -24,6 +24,12 @@ func sum(no int, s []int) (int, error) {
 	return no, nil
 }
 
+//func wrap(fn interface{}, args ...interface{}) func() (interface{}, error) {
+//	return func() (interface{}, error) {
+//		return fn.(func(args ...interface{}) (interface{}, error))(args...)
+//	}
+//}
+
 func main() {
 
 	var fns = make([]func() (interface{}, error), 20)
