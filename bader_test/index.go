@@ -11,7 +11,7 @@ import (
 func main() {
 	// Open the Badger database located in the /tmp/badger directory.
 	// It will be created if it doesn't exist. //.WithInMemory(false)//.WithNumMemtables(2)
-	db, err := badger.Open(badger.DefaultOptions("/tmp/badger").WithMaxCacheSize(10))
+	db, err := badger.Open(badger.DefaultOptions("/tmp/badger").WithMaxTableSize(10*1024))
 	if err != nil {
 		log.Fatal(err)
 	}
