@@ -11,6 +11,10 @@ type Addable interface {
 	string
 }
 
+type any interface {
+
+}
+
 func add[T any, M any](a T, b M) M {
 	return b
 }

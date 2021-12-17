@@ -35,9 +35,13 @@ func main() {
 	var fns = make([]func() (interface{}, error), 20)
 	for i := 0; i < 20; i++ {
 		i := i
-		fns[i] = func() (interface{}, error) {
-			return sum(i, []int{2, 3, 4})
-		}
+		//fns[i] = func() (interface{}, error) {
+		//	return sum(i, []int{2, 3, 4})
+		//}
+		//fns[i] = func() (interface{}, error) {
+		//	return utils.Call(sum, i, []int{2, 3, 4})
+		//}
+		fns[i] = utils.Wrap(sum, i, []int{2, 3, 4})
 	}
 
 	var results, errors = utils.ParallelLimit(&fns, 3)
