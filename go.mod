@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/akrylysov/pogreb v0.10.1
 	github.com/beeker1121/goque v2.1.0+incompatible
+	github.com/dbit-xia/errors v0.10.2
 	github.com/dgraph-io/badger v1.6.2
 	github.com/grandecola/bigqueue v0.5.0
 	github.com/joncrlsn/dque v0.0.0-20211108142734-c2ef48c5192a
@@ -12,7 +13,6 @@ require (
 	github.com/nats-io/stan.go v0.10.2
 	github.com/nsqio/go-nsq v1.1.0
 	github.com/pebbe/zmq4 v1.2.7
-	github.com/pkg/errors v0.9.1
 	github.com/syndtr/goleveldb v1.0.0
 	github.com/thda/tds v0.1.7
 	github.com/xujiajun/nutsdb v0.6.0
@@ -38,6 +38,7 @@ require (
 	github.com/nats-io/nats.go v1.13.1-0.20211018182449-f2416a8b1483 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/xujiajun/mmap-go v1.0.1 // indirect
 	github.com/xujiajun/utils v0.0.0-20190123093513-8bf096c4f53b // indirect
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect

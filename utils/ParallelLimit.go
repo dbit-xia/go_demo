@@ -2,8 +2,6 @@ package utils
 
 import (
 	"fmt"
-
-	"github.com/pkg/errors"
 )
 
 //func WrapError(wrapMsg string, err error) error {
@@ -70,6 +68,7 @@ func ParallelLimit(fns *[]func() (interface{}, error), limit int) (*[]interface{
 					err = recover()
 					if err != nil {
 						hasError = true
+						var errors = &Errors{Skip: 4}
 						parallelErrors.ErrorMap[currentIndex] = errors.WithStack(err.(error))
 					}
 				} else {
