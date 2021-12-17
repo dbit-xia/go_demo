@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"strconv"
+	"fmt"
 
 	"github.com/pkg/errors"
 )
@@ -30,7 +30,7 @@ type ParallelError struct {
 func (p *ParallelError) Error() string {
 	var msg = ""
 	for key, err := range p.ErrorMap {
-		msg += strconv.Itoa(key) + " " + err.Error() + "\n"
+		msg += fmt.Sprintf("%d: %+v \n", key, err)
 	}
 	return msg
 }

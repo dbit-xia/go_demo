@@ -11,7 +11,7 @@ type Aaa struct {
 	Name string
 }
 
-func sum(no uint, s []uint) (*Aaa, error) {
+func sum(no uint, s []uint) (uint, error) {
 	//fmt.Println(no)
 	var sum uint
 	sum = 0
@@ -25,8 +25,8 @@ func sum(no uint, s []uint) (*Aaa, error) {
 	//var newNum = atomic.AddUint32(&shareNum, 1)
 	//fmt.Println(newNum)
 	//time.Sleep(time.Second)
-	var a = &Aaa{Name: "张三"}
-	return a, nil
+	//var a = &Aaa{Name: "张三"}
+	return no, nil
 }
 
 //func wrap(fn interface{}, args ...interface{}) func() (interface{}, error) {
@@ -56,5 +56,7 @@ func main() {
 	}
 
 	var results, errors = utils.ParallelLimit(&fns, 3)
-	fmt.Printf("OK %s %+v \n", ((*results)[0]).(*Aaa), (errors.(*utils.ParallelError)).ErrorMap)
+	//var msg=fmt.Sprintf("%+v",errors.(*utils.ParallelError).ErrorMap[3])
+	fmt.Println("OK", *results, errors)
+	//os.Stat("123")
 }
