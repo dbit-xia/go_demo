@@ -25,6 +25,11 @@ type ParallelError struct {
 	ErrorMap     map[int]error
 }
 
+type GoResult struct {
+	index int
+	err   error
+}
+
 func (p *ParallelError) Error() string {
 	var msg = ""
 	for key, err := range p.ErrorMap {
@@ -34,7 +39,7 @@ func (p *ParallelError) Error() string {
 }
 
 func ParallelLimit(fns *[]func() (interface{}, error), limit int) (*[]interface{}, error) {
-	c := make(chan int)
+
 	var runningCount = 0
 	var total = len(*fns)
 	var resolves = make([]interface{}, total)
@@ -45,48 +50,53 @@ func ParallelLimit(fns *[]func() (interface{}, error), limit int) (*[]interface{
 	}
 	//var lastErrorIndex uint32 = 0
 	var hasError = false
+
+	c := make(chan *GoResult)
+	var errors4 = &Errors{Skip: 4}
+
 	for index := 0; index < total; index++ {
 		//time.Sleep(time.Millisecond)
 		if runningCount < limit {
 			runningCount++
 		} else {
-			<-c
-			//err, _ := parallelErrors.ErrorMap[okIndex]
-			//fmt.Println(time.Now(), okIndex, err)
-			if hasError == true {
+			goResult := <-c
+			if goResult.err != nil {
+				hasError = true
+				parallelErrors.ErrorMap[goResult.index] = goResult.err
+
 				runningCount-- //正在执行减1
 				break
 			}
 		}
 
-		currentIndex := index
-		go func(c chan int) {
+		go func(currentIndex int) {
 			var err interface{}
 			defer func() {
 				// 发生宕机时，获取panic传递的上下文并打印
 				if err == nil {
 					err = recover()
 					if err != nil {
-						hasError = true
-						var errors = &Errors{Skip: 4}
-						parallelErrors.ErrorMap[currentIndex] = errors.WithStack(err.(error))
+						c <- &GoResult{index: currentIndex, err: errors4.WithStack(err.(error))}
+						return
 					}
 				} else {
-					hasError = true
-					parallelErrors.ErrorMap[currentIndex] = err.(error)
+					c <- &GoResult{index: currentIndex, err: err.(error)}
+					return
 				}
-
-				c <- currentIndex
+				c <- &GoResult{index: currentIndex}
+				return
 			}()
 
 			resolves[currentIndex], err = (*fns)[currentIndex]()
 
-		}(c)
+		}(index)
 	}
 
 	for i := 0; i < runningCount; i++ {
-		<-c
-		//fmt.Println(time.Now(), okIndex, parallelErrors.ErrorMap[okIndex])
+		goResult := <-c
+		if goResult.err != nil {
+			parallelErrors.ErrorMap[goResult.index] = goResult.err
+		}
 	}
 	close(c)
 
