@@ -49,7 +49,7 @@ func ParallelLimit(fns *[]func() (interface{}, error), limit int) (*[]interface{
 		ErrorMap: make(map[int]error, total),
 	}
 	//var lastErrorIndex uint32 = 0
-	var hasError = false
+	var errCount = 0
 
 	c := make(chan *GoResult)
 	var errors4 = &Errors{Skip: 4}
@@ -61,7 +61,7 @@ func ParallelLimit(fns *[]func() (interface{}, error), limit int) (*[]interface{
 		} else {
 			goResult := <-c
 			if goResult.err != nil {
-				hasError = true
+				errCount++
 				parallelErrors.ErrorMap[goResult.index] = goResult.err
 
 				runningCount-- //正在执行减1
@@ -69,25 +69,25 @@ func ParallelLimit(fns *[]func() (interface{}, error), limit int) (*[]interface{
 			}
 		}
 
-		go func(currentIndex int) {
+		go func(index int) {
 			var err interface{}
 			defer func() {
 				// 发生宕机时，获取panic传递的上下文并打印
 				if err == nil {
 					err = recover()
 					if err != nil {
-						c <- &GoResult{index: currentIndex, err: errors4.WithStack(err.(error))}
+						c <- &GoResult{index: index, err: errors4.WithStack(err.(error))}
 						return
 					}
 				} else {
-					c <- &GoResult{index: currentIndex, err: err.(error)}
+					c <- &GoResult{index: index, err: err.(error)}
 					return
 				}
-				c <- &GoResult{index: currentIndex}
+				c <- &GoResult{index: index}
 				return
 			}()
 
-			resolves[currentIndex], err = (*fns)[currentIndex]()
+			resolves[index], err = (*fns)[index]()
 
 		}(index)
 	}
@@ -95,13 +95,14 @@ func ParallelLimit(fns *[]func() (interface{}, error), limit int) (*[]interface{
 	for i := 0; i < runningCount; i++ {
 		goResult := <-c
 		if goResult.err != nil {
+			errCount++
 			parallelErrors.ErrorMap[goResult.index] = goResult.err
 		}
 	}
 	close(c)
 
-	if hasError {
-		parallelErrors.ErrorIndexes = make([]int, len(parallelErrors.ErrorMap))
+	if errCount > 0 {
+		parallelErrors.ErrorIndexes = make([]int, errCount)
 		var i int32 = 0
 		for key, _ := range parallelErrors.ErrorMap {
 			parallelErrors.ErrorIndexes[i] = key
