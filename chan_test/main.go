@@ -18,7 +18,7 @@ func sum(no uint, s []uint) (uint, error) {
 	for _, v := range s {
 		sum += v
 	}
-	if no >= 3 {
+	if no >= 5 {
 		var a = 0
 		fmt.Println(1 / a)
 	}
@@ -43,8 +43,8 @@ func sum(no uint, s []uint) (uint, error) {
 
 func main() {
 
-	var fns = make([]func() (interface{}, error), 20)
-	for i := 0; i < 20; i++ {
+	var fns = make([]func() (interface{}, error), 10)
+	for i := 0; i < len(fns); i++ {
 		i := i
 		fns[i] = func() (interface{}, error) {
 			return sum(uint(i), []uint{2, 3, 4})
@@ -55,8 +55,22 @@ func main() {
 		//fns[i] = utils.Wrap(sum, uint(i), []uint{2, 3, 4})
 	}
 
-	var results, errors = utils.ParallelLimit(&fns, 3)
+	var results *[]interface{}
+	var err error
+	results, err = utils.ParallelLimit(&fns, 10)
 	//var msg=fmt.Sprintf("%+v",errors.(*utils.ParallelError).ErrorMap[3])
-	fmt.Println("OK", *results, errors)
+	okCount := 0
+	for _, value := range *results {
+		if value != nil {
+			okCount++
+		}
+
+	}
+	fmt.Println("okCount", okCount)
+	fmt.Println("results", results)
+	if err != nil {
+		fmt.Println("errorCount", len(err.(*utils.ParallelError).ErrorIndexes))
+		//fmt.Println("error", err)
+	}
 	//os.Stat("123")
 }
